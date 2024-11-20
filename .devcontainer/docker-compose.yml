@@ -1,0 +1,27 @@
+services:
+  dev:
+    build: 
+      context: .
+      target: dev
+    environment:
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      POSTGRES_DB_URL: postgres://postgres:postgres@db:5432/myapp_dev?sslmode=disable
+    volumes:
+      - ../:/myapp
+    stdin_open: true
+    tty: true
+    ports:
+      - 8888:8888
+  db:
+    image: postgres:16.1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+volumes:
+  pgdata:
+    driver: local

@@ -1,0 +1,13 @@
+.DS_Store
+Thumbs.db
+
+# Binaries for programs, plugins and tools
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Temp files
+tmp/
