@@ -1,10 +1,9 @@
 package domain_test
 
 import (
-	"errors"
-	"reflect"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/tabakazu/hello-go-api-server/internal/domain"
 )
 
@@ -23,14 +22,10 @@ func TestNewUser(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := domain.NewUser(tt.arg)
 			if tt.wantErr != nil {
-				if !errors.Is(err, tt.wantErr) {
-					t.Errorf("want error %v, but got %v", tt.wantErr, err)
-				}
+				assert.ErrorIs(t, err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("want %v, but got %v", tt.want, got)
-			}
+			assert.Equal(t, got, tt.want)
 		})
 	}
 }
@@ -48,12 +43,7 @@ func TestUser_Validate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			err := tt.u.Validate()
-			if tt.wantErr != nil {
-				if !errors.Is(err, tt.wantErr) {
-					t.Errorf("want error %v, but got %v", tt.wantErr, err)
-				}
-				return
-			}
+			assert.ErrorIs(t, err, tt.wantErr)
 		})
 	}
 }
@@ -72,14 +62,10 @@ func TestNewUsername(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := domain.NewUsername(tt.arg)
 			if tt.wantErr != nil {
-				if !errors.Is(err, tt.wantErr) {
-					t.Errorf("want error %v, but got %v", tt.wantErr, err)
-				}
+				assert.ErrorIs(t, err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("want %v, but got %v", tt.want, got)
-			}
+			assert.Equal(t, got, tt.want)
 		})
 	}
 }
@@ -99,12 +85,7 @@ func TestUsername_Validate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			err := tt.u.Validate()
-			if tt.wantErr != nil {
-				if !errors.Is(err, tt.wantErr) {
-					t.Errorf("want error %v, but got %v", tt.wantErr, err)
-				}
-				return
-			}
+			assert.ErrorIs(t, err, tt.wantErr)
 		})
 	}
 }
@@ -120,9 +101,7 @@ func TestUsername_String(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := tt.u.String()
-			if got != tt.want {
-				t.Errorf("want %v, but got %v", tt.want, got)
-			}
+			assert.Equal(t, got, tt.want)
 		})
 	}
 }
