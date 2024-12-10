@@ -1,0 +1,22 @@
+openapi: 3.0.3
+info:
+  title: Hello Go API Server
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/
+    description: Local server
+paths:
+  /users:
+    $ref: './paths/users.yaml'
+  /users/{username}:
+    $ref: './paths/users-by-username.yaml'
+components:
+  schemas:
+    User:
+      $ref: './components/schemas/User.yaml'
+    CreateUserRequest:
+      $ref: './components/requestBody/CreateUserRequest.yaml'
+    Error:
+      $ref: './components/responses/Error.yaml'
+    UserResponse:
+      $ref: './components/responses/UserResponse.yaml'

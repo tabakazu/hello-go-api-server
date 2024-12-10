@@ -1,0 +1,21 @@
+type: object
+properties:
+  type:
+    type: string
+  message:
+    type: string
+  invalid_params:
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+        reason:
+          type: string
+      required:
+        - name
+        - reason
+required:
+  - type
+  - message

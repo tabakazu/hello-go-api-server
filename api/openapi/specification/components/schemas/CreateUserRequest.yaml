@@ -1,0 +1,11 @@
+type: object
+properties:
+  user:
+    type: object
+    properties:
+      username:
+        type: string
+    required:
+      - username
+required:
+  - user

@@ -1,0 +1,6 @@
+type: object
+properties:
+  user:
+    $ref: '../schemas/User.yaml'
+required:
+  - user

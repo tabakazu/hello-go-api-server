@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Hello Go API Server
+  version: 1.0.0
+servers:
+- description: Local server
+  url: http://localhost:8080/
+paths:
+  /users:
+    post:
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: User created successfully
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unprocessable Entity
+      summary: Create a new user
+      tags:
+      - users
+  /users/{username}:
+    get:
+      operationId: getUserByUsername
+      parameters:
+      - in: path
+        name: username
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: User found
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: User not found
+      summary: Get a user by username
+      tags:
+      - users
+components:
+  schemas:
+    User:
+      example:
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        created_at: 2000-01-23T04:56:07.000+00:00
+        username: username
+      properties:
+        username:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+      required:
+      - created_at
+      - updated_at
+      - username
+      type: object
+    CreateUserRequest:
+      example:
+        user:
+          username: username
+      properties:
+        user:
+          $ref: '#/components/schemas/CreateUserRequest_user'
+      required:
+      - user
+      type: object
+    Error:
+      example:
+        invalid_params:
+        - reason: reason
+          name: name
+        - reason: reason
+          name: name
+        type: type
+        message: message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        invalid_params:
+          items:
+            $ref: '#/components/schemas/Error_invalid_params_inner'
+          type: array
+      required:
+      - message
+      - type
+      type: object
+    UserResponse:
+      example:
+        user:
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          username: username
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+      required:
+      - user
+      type: object
+    CreateUserRequest_user:
+      example:
+        username: username
+      properties:
+        username:
+          type: string
+      required:
+      - username
+      type: object
+    Error_invalid_params_inner:
+      example:
+        reason: reason
+        name: name
+      properties:
+        name:
+          type: string
+        reason:
+          type: string
+      required:
+      - name
+      - reason
+      type: object

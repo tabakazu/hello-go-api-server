@@ -1,0 +1,14 @@
+type: object
+properties:
+  username:
+    type: string
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+required:
+  - username
+  - created_at
+  - updated_at
