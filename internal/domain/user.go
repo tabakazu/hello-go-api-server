@@ -8,6 +8,8 @@ import (
 var (
 	// ErrUserUsernameRequired はユーザーに必須のユーザー名が入力されていない場合のエラー
 	ErrUserUsernameRequired = errors.New("domain/user: username is required")
+	// ErrUserUsernameDuplicated は他ユーザーとユーザ名が重複している場合のエラー
+	ErrUserUsernameDuplicated = errors.New("domain/user: username is duplicated")
 )
 
 // User はユーザーを表すエンティティオブジェクト
@@ -48,8 +50,6 @@ var (
 	ErrUsernameTooLong = errors.New("domain/username: too long")
 	// ErrUsernameTooShort はユーザー名が短すぎる場合のエラー
 	ErrUsernameTooShort = errors.New("domain/username: too short")
-	// ErrUsernameDuplicated はユーザー名が重複している場合のエラー
-	ErrUsernameDuplicated = errors.New("domain/username: duplicated")
 )
 
 const (

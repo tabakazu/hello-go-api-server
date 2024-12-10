@@ -5,6 +5,8 @@ import (
 	"errors"
 	"time"
 
+	"github.com/jackc/pgerrcode"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/tabakazu/hello-go-api-server/internal/app"
 	"github.com/tabakazu/hello-go-api-server/internal/domain"
 	"gorm.io/gorm"
@@ -58,8 +60,10 @@ func (r *UserRepository) Create(ctx context.Context, u *domain.User) error {
 
 	tx := r.db.WithContext(ctx).Begin()
 	if err := tx.Create(user).Error; err != nil {
-		if errors.Is(err, gorm.ErrDuplicatedKey) {
-			return domain.ErrUsernameDuplicated
+		if pgError := err.(*pgconn.PgError); errors.Is(err, pgError) {
+			if pgError.Code == pgerrcode.UniqueViolation {
+				return domain.ErrUserUsernameDuplicated
+			}
 		}
 		return err
 	}

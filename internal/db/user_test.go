@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/jackc/pgerrcode"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/stretchr/testify/assert"
 	"github.com/tabakazu/hello-go-api-server/internal/app"
 	"github.com/tabakazu/hello-go-api-server/internal/db"
@@ -113,12 +115,12 @@ func TestUserRepository_Create(t *testing.T) {
 		{
 			name:    "username is duplicated",
 			u:       domain.User{Username: "testuser"},
-			wantErr: domain.ErrUsernameDuplicated,
+			wantErr: domain.ErrUserUsernameDuplicated,
 			mockFunc: func() {
 				mock.ExpectBegin()
 				mock.ExpectQuery(`INSERT INTO "users" \("username","created_at","updated_at"\) VALUES \(\$1,\$2,\$3\) RETURNING "id"`).
 					WithArgs("testuser", sqlmock.AnyArg(), sqlmock.AnyArg()).
-					WillReturnError(gorm.ErrDuplicatedKey)
+					WillReturnError(&pgconn.PgError{Code: pgerrcode.UniqueViolation})
 				mock.ExpectRollback()
 			},
 		},
