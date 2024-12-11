@@ -1,4 +1,7 @@
-.PHONY: test build run
+.PHONY: dev test build run
+
+dev:
+	go run cmd/rest/server/main.go
 
 test:
 	go test -v -race ./...
