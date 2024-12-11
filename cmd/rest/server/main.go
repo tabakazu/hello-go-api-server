@@ -20,11 +20,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	userCtrl := &controller.UserController{
+	userHandler := &controller.UserHandler{
 		Repo: repo,
 	}
 
-	srv, err := server.NewServer(userCtrl)
+	srv, err := server.NewServer(&controller.RootHandler{
+		UserHandler: userHandler,
+	})
 	if err != nil {
 		log.Fatal(err)
 	}

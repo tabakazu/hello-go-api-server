@@ -8,13 +8,13 @@ import (
 	"github.com/tabakazu/hello-go-api-server/pkg/rest/server"
 )
 
-type UserController struct {
+type UserHandler struct {
 	Repo app.UserRepository
 }
 
-func (c *UserController) GetUserByUsername(ctx context.Context, params server.GetUserByUsernameParams) (server.GetUserByUsernameRes, error) {
+func (h *UserHandler) GetUserByUsername(ctx context.Context, params server.GetUserByUsernameParams) (server.GetUserByUsernameRes, error) {
 	service := app.GetUserService{
-		Repo: c.Repo,
+		Repo: h.Repo,
 	}
 	output, err := service.Execute(ctx, &app.GetUserInput{
 		Username: params.Username,
@@ -30,9 +30,9 @@ func (c *UserController) GetUserByUsername(ctx context.Context, params server.Ge
 	return res, nil
 }
 
-func (c *UserController) CreateUser(ctx context.Context, req *server.CreateUserRequest) (server.CreateUserRes, error) {
+func (h *UserHandler) CreateUser(ctx context.Context, req *server.CreateUserRequest) (server.CreateUserRes, error) {
 	service := app.CreateUserService{
-		Repo: c.Repo,
+		Repo: h.Repo,
 	}
 	output, err := service.Execute(ctx, &app.CreateUserInput{
 		Username: req.User.Username,
