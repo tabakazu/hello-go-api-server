@@ -52,7 +52,7 @@ func TestGetUserService_Execute(t *testing.T) {
 			input:    &app.GetUserInput{Username: ""},
 			mockFunc: func(repo *appmock.MockUserRepository) {},
 			want:     nil,
-			wantErr:  domain.ErrUsernameInvalid,
+			wantErr:  app.ErrUserNotFound,
 		},
 	}
 

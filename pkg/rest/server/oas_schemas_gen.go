@@ -6,6 +6,10 @@ import (
 	"time"
 )
 
+type CreateUserInternalServerError Error
+
+func (*CreateUserInternalServerError) createUserRes() {}
+
 // Ref: #/components/schemas/CreateUserRequest
 type CreateUserRequest struct {
 	User CreateUserRequestUser `json:"user"`
@@ -35,6 +39,10 @@ func (s *CreateUserRequestUser) GetUsername() string {
 func (s *CreateUserRequestUser) SetUsername(val string) {
 	s.Username = val
 }
+
+type CreateUserUnprocessableEntity Error
+
+func (*CreateUserUnprocessableEntity) createUserRes() {}
 
 // Ref: #/components/schemas/Error
 type Error struct {
@@ -73,9 +81,6 @@ func (s *Error) SetInvalidParams(val []ErrorInvalidParamsInner) {
 	s.InvalidParams = val
 }
 
-func (*Error) createUserRes()        {}
-func (*Error) getUserByUsernameRes() {}
-
 // Ref: #/components/schemas/Error_invalid_params_inner
 type ErrorInvalidParamsInner struct {
 	Name   string `json:"name"`
@@ -101,6 +106,14 @@ func (s *ErrorInvalidParamsInner) SetName(val string) {
 func (s *ErrorInvalidParamsInner) SetReason(val string) {
 	s.Reason = val
 }
+
+type GetUserByUsernameInternalServerError Error
+
+func (*GetUserByUsernameInternalServerError) getUserByUsernameRes() {}
+
+type GetUserByUsernameNotFound Error
+
+func (*GetUserByUsernameNotFound) getUserByUsernameRes() {}
 
 // Ref: #/components/schemas/User
 type User struct {

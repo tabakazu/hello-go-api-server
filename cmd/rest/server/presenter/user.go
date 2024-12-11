@@ -15,9 +15,16 @@ type GetUserPresenter struct {
 
 func (p *GetUserPresenter) Present() (server.GetUserByUsernameRes, error) {
 	if p.Err != nil {
-		return &server.Error{
-			Type:    NotFoundErrorType,
-			Message: NotFoundErrorDefaultMessage,
+		if errors.Is(p.Err, app.ErrUserNotFound) {
+			return &server.GetUserByUsernameNotFound{
+				Type:    NotFoundErrorType,
+				Message: NotFoundErrorDefaultMessage,
+			}, nil
+		}
+
+		return &server.GetUserByUsernameInternalServerError{
+			Type:    InternalServerErrorType,
+			Message: p.Err.Error(),
 		}, nil
 	}
 
@@ -56,14 +63,14 @@ func (p *CreateUserPresenter) Present() (server.CreateUserRes, error) {
 
 		if len(invalidParams) > 0 {
 			// Format similar to https://datatracker.ietf.org/doc/html/rfc7807
-			return &server.Error{
+			return &server.CreateUserInternalServerError{
 				Type:          ValidationErrorType,
 				Message:       ValidationErrorDefaultMessage,
 				InvalidParams: invalidParams,
 			}, nil
 		}
 
-		return &server.Error{
+		return &server.CreateUserInternalServerError{
 			Type:    InternalServerErrorType,
 			Message: p.Err.Error(),
 		}, nil

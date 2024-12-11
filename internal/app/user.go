@@ -38,7 +38,7 @@ type GetUserOutput struct {
 func (s *GetUserService) Execute(ctx context.Context, input *GetUserInput) (*GetUserOutput, error) {
 	v, err := domain.NewUsername(input.Username)
 	if err != nil {
-		return nil, err
+		return nil, ErrUserNotFound
 	}
 
 	user, err := s.Repo.FindByUsername(ctx, v)

@@ -28,6 +28,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Unprocessable Entity
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
       summary: Create a new user
       tags:
       - users
@@ -53,6 +59,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: User not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
       summary: Get a user by username
       tags:
       - users
